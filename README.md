@@ -1,5 +1,6 @@
 # twitter-bot
 using Cheerio (:
-it assumed you know how to create a Discord Bot
+
+Create a Discord Bot if you want to run it!
 
 Prefix: !
