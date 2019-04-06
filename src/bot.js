@@ -36,7 +36,7 @@ twitter.on('message', async message => {
 	let args = messageArray.slice(1);
 
 	if(!message.content.startsWith(prefix)) return;
-	let commandfile = twitter.commands.get(cmd.slice(prefix.length)) || twitter.commands.get(twitter.aliases.get(cmd.slice(prefix.length)));
+	let commandfile = twitter.commands.get(cmd.slice(prefix.length));
 	if(commandfile) commandfile.run(twitter,message,args);
 });
 
