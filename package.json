@@ -1,0 +1,17 @@
+{
+  "name": "web-scraping",
+  "version": "1.0.0",
+  "description": "twitter web scraping discord bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "midknightmare#1216",
+  "license": "ISC",
+  "dependencies": {
+    "chalk": "^2.4.2",
+    "cheerio": "^1.0.0-rc.2",
+    "discord.js": "^11.4.2",
+    "request": "^2.88.0"
+  }
+}

@@ -1,0 +1,8 @@
+# testing files
+main.js
+
+# package
+.json
+
+# ignore entire directory lol
+/node_modules/
