@@ -2,7 +2,7 @@
 main.js
 
 # package
-.json
+*.json
 
 # ignore entire directory lol
 /node_modules/

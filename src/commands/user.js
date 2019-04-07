@@ -4,12 +4,12 @@ const request = require('request');
 const chalk = require('chalk');
 
 module.exports.run = async (twitter, message, args) => {
-	let userSeach = args[0];
+	let userSearch = args[0];
 
-		if(!userSeach) {
+		if(!userSearch) {
 			return message.channel.send('please provide a valid Twitter username')
 		} else {
-			request(`https://twitter.com/${userSeach}`, async (err, response, html) => {
+			request(`https://twitter.com/${userSearch}`, async (err, response, html) => {
 				if(err) {
 					return console.log(err)
 				} 
@@ -27,8 +27,11 @@ module.exports.run = async (twitter, message, args) => {
 					const avatar = $('.ProfileAvatar-image').attr('src')
 					let avatarData = await avatar
 
+					const bio = $('.ProfileHeaderCard-bio.u-dir').text()
+					let bioData = await bio
+
 					const tweets = $('[data-nav="tweets"] .ProfileNav-value')
-					let tweetsData = tweets.data('count')
+					let tweetsData = await tweets.data('count')
 
 					const following = $('[data-nav="following"] .ProfileNav-value')
 					let followingData = await following.data('count')
@@ -36,19 +39,27 @@ module.exports.run = async (twitter, message, args) => {
 					const followers = $('[data-nav="followers"] .ProfileNav-value')
 					let followersData = await followers.data('count')
 
+					let handle = `https://twitter.com/${userSearch}`
+
+					let titleImage = 'https://seeklogo.com/images/T/twitter-2012-negative-logo-5C6C1F1521-seeklogo.com.png'
+
 					let twitterEmbed = new Discord.RichEmbed()
 						.setColor('#00000')
-						.setTitle(`${userSeach}`)
-						.setDescription(`Follow [${userSeach}](https://twitter.com/${userSeach})`)
+						.setAuthor(userSearch, titleImage, handle)
+						.setTitle(`Follow ${userSearch}`)
+						.setURL(`https://twitter.com/${userSearch}`)
+						.setDescription(bioData)
 						.setThumbnail(avatarData)
 						.setImage(headerData)
 						.addField('Tweets:', `${tweetsData}`, true)
 						.addField('Following:', `${followingData}`, true)
 						.addField('Followers:', `${followersData}`, true)
 						.setTimestamp()
-					await message.channel.send(twitterEmbed)
+					await message.channel.send('searching....').then((msg) => {
+						msg.edit(twitterEmbed)
+					})
 					console.log(response.statusCode)
-			}
+			};
 		});
 	};
 };
