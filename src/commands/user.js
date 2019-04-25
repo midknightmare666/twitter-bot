@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const request = require('request');
 const chalk = require('chalk');
 
-module.exports.run = async (bot, message, args) => {
+module.exports.run = async (twitter, message, args) => {
 	let userSearch = args[0];
 
 		if(!userSearch) {
