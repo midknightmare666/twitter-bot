@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const request = require('request');
 const chalk = require('chalk');
 
-module.exports.run = async (twitter, message, args) => {
+module.exports.run = async (bot, message, args) => {
 	let userSearch = args[0];
 
 		if(!userSearch) {
@@ -30,8 +30,14 @@ module.exports.run = async (twitter, message, args) => {
 					const bio = $('.ProfileHeaderCard-bio.u-dir').text()
 					let bioData = await bio
 
+					const website = $('.ProfileHeaderCard-urlText.u-dir').text()
+					let websiteLink = await website
+
 					const tweets = $('[data-nav="tweets"] .ProfileNav-value')
 					let tweetsData = await tweets.data('count')
+
+					const favorites = $('[data-nav="favorites"] .ProfileNav-value').text()
+					let likes = await favorites
 
 					const following = $('[data-nav="following"] .ProfileNav-value')
 					let followingData = await following.data('count')
@@ -51,19 +57,23 @@ module.exports.run = async (twitter, message, args) => {
 						.setDescription(bioData)
 						.setThumbnail(avatarData)
 						.setImage(headerData)
-						.addField('Tweets:', `${tweetsData}`, true)
 						.addField('Following:', `${followingData}`, true)
 						.addField('Followers:', `${followersData}`, true)
-						.setTimestamp()
+						.addField('Tweets:', `${tweetsData}`, true)
+						.addField('Likes:', `${likes}`, true)
+						if(website !== undefined || 'undefined') {
+							twitterEmbed.setFooter(websiteLink)
+						}
 					await message.channel.send('searching....').then((msg) => {
 						msg.edit(twitterEmbed)
 					})
-					console.log(response.statusCode)
+					// console.log(response.statusCode)
 			};
 		});
 	};
 };
 
 module.exports.config = {
-	name: 'user'
+	name: 'twitter',
+	aliases: ['tuser', 'twitteruser']
 }
